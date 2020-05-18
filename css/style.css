@@ -1,0 +1,24 @@
+.main {
+    text-align: center;
+}
+.head_line {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background-color: #000;
+}
+
+.left_box {
+    font-family: "Times New Roman";
+    padding-left: 20px;
+    height: 100px;
+    color: #FFF;
+}
+
+
+.right_box {
+    padding-right: 20px;
+    padding-top: 70px;
+    margin-left: auto;
+    height: auto;
+}
