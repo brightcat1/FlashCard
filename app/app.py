@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, url_for, redirect
 import mysql.connector as voca_db
 import json
 
-from models.database import MySQL
 
 f = open("loginfo.json", 'r')
 login_info = json.load(f)
@@ -15,6 +14,7 @@ connect = voca_db.connect(
     password=login_info["password"],
     database=login_info["database"]
 )
+
 connect.ping(reconnect=True)
 cur = connect.cursor()
 
