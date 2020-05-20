@@ -25,26 +25,22 @@ def main():
 def index():
     return render_template("index.html")
 
-#「/index」へアクセスがあった場合に、「index.html」を返す
+#「/create_card.html」へアクセスがあった場合に、「create_card.html」を返す
 @app.route("/create_card.html")
 def create_card():
     return render_template("create_card.html")
 
+#「/test.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/test.html")
 def test():
     return render_template("test.html")
 
+#「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
 def check():
     return render_template("check.html")
 
-@app.route("/index",methods=["post"])
-def post():
-    name = request.form["name"]
-    okyo = ["色不異空", "空不異色", "色即是空", "空即是色"]
-    return render_template("index.html", name=name, okyo=okyo)
+    
 
-
-#おまじない
 if __name__ == "__main__":
     app.run(debug=True)
