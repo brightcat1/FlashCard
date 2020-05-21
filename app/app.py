@@ -25,7 +25,7 @@ app = Flask(__name__)
 #「/」へアクセスがあった場合に、index.htmlへ飛ばす
 @app.route("/")
 def main():
-    return render_template("index.html")
+    return redirect(url_for('index'))
 
 
 #「/index」へアクセスがあった場合に、「index.html」を返す
@@ -43,7 +43,8 @@ def post():
     word = request.form["word"]
     mean = request.form["mean"]
     cur.execute("INSERT INTO vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
-    return render_template("create_card.html")
+    connect.commit()
+    return redirect(url_for('create_card'))
 
 #「/test.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/test.html")
