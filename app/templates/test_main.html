@@ -18,11 +18,14 @@
         </div>
         <div class = "main">
             <h1 class = "ptitle">TEST</h1>
-            <p class = "mes">Let's challenge your LIMIT!!</p>
+                <p>{{info[voca_index][1]}}</p>
             <div class = "tform">
-                <p>{{test_str}}</p>
-                    
-                <p><input type="submit" value="next" class="test_btn"></p>
+                <form action="answer" method="post">
+                    <p><input type="submit" value="answer" class="test_btn"></p>
+                </form>
+                <form action="next" method="post">
+                    <p><input type="submit" value="next" class="test_btn"></p>
+                </form>
             </div>
         </div>
         <div class = "foot_line">

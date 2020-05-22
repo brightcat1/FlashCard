@@ -2,9 +2,10 @@
 from flask import Flask, render_template, request, url_for, redirect
 import mysql.connector as voca_db
 import json
+import random
 
 
-f = open("loginfo.json", 'r')
+f = open("serinfo.json", 'r')
 login_info = json.load(f)
 
 connect = voca_db.connect(
@@ -20,6 +21,13 @@ cur = connect.cursor()
 
 #Flaskオブジェクトの生成
 app = Flask(__name__)
+
+#単語のテストの順番を決める用（インデックス）の集合
+voca_index = []
+
+vaca_info = []
+
+i = 0
 
 
 #「/」へアクセスがあった場合に、index.htmlへ飛ばす
@@ -53,15 +61,21 @@ def test():
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/test",methods=["post"])
-def test():
+def voca_test():
+    voca_index = []
     shuffle = request.form["shuffle"]
-    order = request.form["order"]
-    if ?
-        cur.execute("SELECT FROM vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
-    if ?
-        cur.execute("SELECT FROM vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
-    connect.commit()
-    return redirect(url_for('test_main.html'))
+    cur.execute('SELECT * FROM vocabook')
+    voca_info = cur.fetchall()
+    for i in range(voca_info.size()):
+        voca_index.append(i)
+    if shuffle == 1:
+        random.shuffle(voca_index)
+    return render_template('test_main.html', voca_info = voca_info, voca_index = voca_index[i])
+
+#「/test_main.html」へアクセスがあった場合に、「test.html」を返す
+@app.route("/answer",methods=["post"])
+def voca_answer():
+    return render_template('test_main.html', ans = voca_info[voca_index[i]][2])
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
