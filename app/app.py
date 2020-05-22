@@ -25,8 +25,6 @@ app = Flask(__name__)
 #単語のテストの順番を決める用（インデックス）の集合
 voca_index = []
 
-vaca_info = []
-
 i = 0
 
 
@@ -66,7 +64,7 @@ def voca_test():
     shuffle = request.form["shuffle"]
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
-    for i in range(voca_info.size()):
+    for i in range(len(voca_info)):
         voca_index.append(i)
     if shuffle == 1:
         random.shuffle(voca_index)
@@ -75,7 +73,9 @@ def voca_test():
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/answer",methods=["post"])
 def voca_answer():
-    return render_template('test_main.html', ans = voca_info[voca_index[i]][2])
+    cur.execute('SELECT * FROM vocabook where id = {a}'.format(a = voca_index[i] + 1))
+    voca_info = cur.fetchall()
+    return render_template('test_main.html', ans = voca_info[0][2])
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
