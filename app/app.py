@@ -51,6 +51,18 @@ def post():
 def test():
     return render_template("test.html")
 
+#「/test_main.html」へアクセスがあった場合に、「test.html」を返す
+@app.route("/test",methods=["post"])
+def test():
+    shuffle = request.form["shuffle"]
+    order = request.form["order"]
+    if ?
+        cur.execute("SELECT FROM vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
+    if ?
+        cur.execute("SELECT FROM vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
+    connect.commit()
+    return redirect(url_for('test_main.html'))
+
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
 def check():
