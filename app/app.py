@@ -53,11 +53,11 @@ def post():
 def delete_card():
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
-    num = int(request.form["card_num"])
-    if 0 >= num and num <= range(len(voca_info)):
-        return redirect(url_for('error'))
-    cur.execute("DELETE FROM vocabook  WHERE id = {a};".format(a = num))
-    connect.commit()
+    card_word = request.form["card_word"]
+    for item in voca_info:
+        if item[1] == card_word:
+            cur.execute("DELETE FROM vocabook  WHERE word = '{a}';".format(a = item[1]))
+            connect.commit()
     return redirect(url_for('create_card'))
 
 #「/test.html」へアクセスがあった場合に、「test.html」を返す

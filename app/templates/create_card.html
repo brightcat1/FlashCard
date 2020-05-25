@@ -30,11 +30,11 @@
             </form>
             <form action="delete_card" method="post">
                 <p class = "word_text">card number</p>
-                <input type="text" class = "word" name="card_num" placeholder="Please enter the card number">
+                <input type="text" class = "word" name="card_word" placeholder="Please enter the word">
                 <p><input type="submit" value="REGISTER" class="register_btn"></p>
             </form>
             {% for item in voca_info %}
-            <p>{{item[0]}} : {{item[1]}} : {{item[2]}}</p>
+            <h1><p>{{item[1]}} : {{item[2]}}</p><h1>
             {% endfor %}
         </div>
         <div class = "foot_line">
