@@ -73,6 +73,23 @@ def voca_test():
     return render_template('test_main.html', voca_info = voca_info, voca_index = voca_index[0], shuffle = shuffle, flag = flag)
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
+@app.route("/next",methods=["post"])
+def next_test():
+    voca_index = []
+    shuffle = request.form["shuffle"]
+    cur.execute('SELECT * FROM vocabook')
+    voca_info = cur.fetchall()
+    for i in range(len(voca_info)):
+        voca_index.append(i)
+    if shuffle == "1":
+        random.shuffle(voca_index)
+    for i in range(len(voca_index)):
+        cur.execute("INSERT INTO vocaindex (vindex) VALUES ('{vindex}');".format(vindex=voca_index[i]))
+    connect.commit()
+    flag = 1
+    return render_template('test_main.html', voca_info = voca_info, voca_index = voca_index[0], shuffle = shuffle, flag = flag)
+
+#「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/answer",methods=["post"])
 def voca_answer():
     cur.execute('SELECT * FROM vocaindex')
@@ -81,6 +98,8 @@ def voca_answer():
     cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
     ans_info = cur.fetchall()
     flag = 0
+    cur.execute("DELETE FROM vocaindex  WHERE id = {a};".format(a = str(index_num + 1)))
+    connect.commit()
     return render_template('test_main.html', ans = ans_info, flag = flag)
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す

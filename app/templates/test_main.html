@@ -24,12 +24,15 @@
             <h1>{{ans[0][0]}}</h1>
             {% endif %}
             <div class = "tform">
+                {% if flag == 1 %}
                 <form action="answer" method="post">
                     <p><input type="submit" value="answer" class="test_btn"></p>
                 </form>
+                {% else %}
                 <form action="next" method="post">
                     <p><input type="submit" value="next" class="test_btn"></p>
                 </form>
+                {% endif %}
             </div>
         </div>
         <div class = "foot_line">
