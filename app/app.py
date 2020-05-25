@@ -75,12 +75,13 @@ def voca_test():
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/answer",methods=["post"])
 def voca_answer():
-    cur.execute('SELECT vindex FROM vocaindex limit 1')
+    cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
-    cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = index_info[0][0]))
+    index_num = int(index_info[0][1])
+    cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
     ans_info = cur.fetchall()
     flag = 0
-    return render_template('test_main.html', ans = ans_info[0][0], flag = flag)
+    return render_template('test_main.html', ans = ans_info, flag = flag)
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
