@@ -28,6 +28,14 @@
                 <textarea class="mean" name="mean" placeholder="Please enter the meaning of the word"></textarea>
                 <p><input type="submit" value="REGISTER" class="register_btn"></p>
             </form>
+            <form action="delete_card" method="post">
+                <p class = "word_text">card number</p>
+                <input type="text" class = "word" name="card_num" placeholder="Please enter the card number">
+                <p><input type="submit" value="REGISTER" class="register_btn"></p>
+            </form>
+            {% for item in voca_info %}
+            <p>{{item[0]}} : {{item[1]}} : {{item[2]}}</p>
+            {% endfor %}
         </div>
         <div class = "foot_line">
         </div>

@@ -37,13 +37,26 @@ def index():
 #「/create_card.html」へアクセスがあった場合に、「create_card.html」を返す
 @app.route("/create_card.html")
 def create_card():
-    return render_template("create_card.html")
+    cur.execute('SELECT * FROM vocabook')
+    voca_info = cur.fetchall()
+    return render_template("create_card.html", voca_info = voca_info)
 
 @app.route("/add_card",methods=["post"])
 def post():
     word = request.form["word"]
     mean = request.form["mean"]
     cur.execute("INSERT INTO vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
+    connect.commit()
+    return redirect(url_for('create_card'))
+
+@app.route("/delete_card",methods=["post"])
+def delete_card():
+    cur.execute('SELECT * FROM vocabook')
+    voca_info = cur.fetchall()
+    num = int(request.form["card_num"])
+    if 0 >= num and num <= range(len(voca_info)):
+        return redirect(url_for('error'))
+    cur.execute("DELETE FROM vocabook  WHERE id = {a};".format(a = num))
     connect.commit()
     return redirect(url_for('create_card'))
 
@@ -63,7 +76,7 @@ def voca_test():
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
     for i in range(len(voca_info)):
-        voca_index.append(i)
+        voca_index.append(voca_info[i][0])
     if shuffle == "1":
         random.shuffle(voca_index)
     for i in range(len(voca_index)):
@@ -72,8 +85,7 @@ def voca_test():
     connect.commit()
     cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
-    index_num = int(index_info[0][1])
-    cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
+    cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     voca_info = cur.fetchall()
     flag = 1
     return render_template('test_main.html', voca_info = voca_info, flag = flag)
@@ -82,14 +94,11 @@ def voca_test():
 @app.route("/next",methods=["post"])
 def next_test():
     voca_index = []
-    shuffle = "1"
     cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
-    index_num = int(index_info[0][1])
-    if index_num == 100:
+    if index_info[0][1] == 100:
         return render_template('test_end.html')
-    index_num = int(index_info[0][1])
-    cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
+    cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     voca_info = cur.fetchall()
     flag = 1
     return render_template('test_main.html', voca_info = voca_info, flag = flag)
@@ -99,12 +108,10 @@ def next_test():
 def voca_answer():
     cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
-    index_num = int(index_info[0][1])
-    index_id = int(index_info[0][0])
-    cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
+    cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     ans_info = cur.fetchall()
     flag = 0
-    cur.execute("DELETE FROM vocaindex  WHERE id = {a};".format(a = str(index_id)))
+    cur.execute("DELETE FROM vocaindex  WHERE id = {a};".format(a = index_info[0][0]))
     connect.commit()
     return render_template('test_main.html', ans = ans_info, flag = flag)
 
