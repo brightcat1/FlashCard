@@ -87,7 +87,7 @@ def next_test():
     index_info = cur.fetchall()
     index_num = int(index_info[0][1])
     if index_num == 100:
-        return render_template('index.html')
+        return render_template('test_end.html')
     index_num = int(index_info[0][1])
     cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = str(index_num + 1)))
     voca_info = cur.fetchall()
@@ -107,6 +107,10 @@ def voca_answer():
     cur.execute("DELETE FROM vocaindex  WHERE id = {a};".format(a = str(index_id)))
     connect.commit()
     return render_template('test_main.html', ans = ans_info, flag = flag)
+
+@app.route("/to_home",methods=["post"])
+def to_home():
+    return redirect(url_for('index'))
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
