@@ -18,8 +18,11 @@
         </div>
         <div class = "main">
             <h1 class = "ptitle">TEST</h1>
-                <p>{{voca_info[voca_index][1]}}</p>
-                <p>{{ ans }}</p>
+            {% if flag == 1 %}
+            <h1><p>{{voca_info[voca_index][1]}}</p></h1>
+            {% else %}
+            <h1>{{ans}}</h1>
+            {% endif %}
             <div class = "tform">
                 <form action="answer" method="post">
                     <p><input type="submit" value="answer" class="test_btn"></p>

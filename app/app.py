@@ -50,6 +50,9 @@ def post():
 #「/test.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/test.html")
 def test():
+    cur.execute('DROP TABLE IF EXISTS vocaindex')
+    cur.execute('CREATE TABLE vocaindex (id INTEGER PRIMARY KEY AUTO_INCREMENT, vindex INTEGER NOT NULL);')
+    connect.commit()
     return render_template("test.html")
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
@@ -61,20 +64,23 @@ def voca_test():
     voca_info = cur.fetchall()
     for i in range(len(voca_info)):
         voca_index.append(i)
-    if shuffle == 1:
+    if shuffle == "1":
         random.shuffle(voca_index)
     for i in range(len(voca_index)):
         cur.execute("INSERT INTO vocaindex (vindex) VALUES ('{vindex}');".format(vindex=voca_index[i]))
     connect.commit()
-
-    return render_template('test_main.html', voca_info = voca_info, voca_index = voca_index[0])
+    flag = 1
+    return render_template('test_main.html', voca_info = voca_info, voca_index = voca_index[0], shuffle = shuffle, flag = flag)
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/answer",methods=["post"])
 def voca_answer():
-    cur.execute('SELECT * FROM vocabook where id = {a}'.format(a = 1))
-    voca_info = cur.fetchall()
-    return render_template('test_main.html', ans = "test")
+    cur.execute('SELECT vindex FROM vocaindex limit 1')
+    index_info = cur.fetchall()
+    cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = index_info[0][0]))
+    ans_info = cur.fetchall()
+    flag = 0
+    return render_template('test_main.html', ans = ans_info[0][0], flag = flag)
 
 #「/check.html」へアクセスがあった場合に、「check.html」を返す
 @app.route("/check.html")
