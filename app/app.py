@@ -46,6 +46,12 @@ def create_card():
 def post():
     word = request.form["word"]
     mean = request.form["mean"]
+    cur.execute('SELECT * FROM vocabook')
+    voca_info = cur.fetchall()
+    for item in voca_info:
+        if item[1] == word:
+            error_code = 101
+            return render_template("error.html", error_code = error_code)
     if len(word) > 30 or len(mean) > 52:
         error_code = 101
         return render_template("error.html", error_code = error_code)
