@@ -18,12 +18,14 @@
         </div>
         <div class = "main">
             <p class = "ptitle">TEST</p>
-            {% if flag == 1 %}
-            <p class="voca_card">{{voca_info[0][0]}}</p>
-            {% else %}
-            <p class = "voca_card">{{ans[0][0]}}</p>
-            {% endif %}
-            <div class = "tform">
+            <div class="voca_card">
+                {% if flag == 1 %}
+                <p>{{voca_info[0][0]}}</p>
+                {% else %}
+                <p>{{ans[0][0]}}</p>
+                {% endif %}
+            </div>
+            <div class = "t_v_form">
                 {% if flag == 1 %}
                 <form action="answer" method="post">
                     <p><input type="submit" value="answer" class="test_btn"></p>
