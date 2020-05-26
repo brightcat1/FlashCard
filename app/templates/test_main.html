@@ -17,11 +17,11 @@
             </div>
         </div>
         <div class = "main">
-            <h1 class = "ptitle">TEST</h1>
+            <p class = "ptitle">TEST</p>
             {% if flag == 1 %}
-            <h1><p>{{voca_info[0][0]}}</p></h1>
+            <p class="voca_card">{{voca_info[0][0]}}</p>
             {% else %}
-            <h1>{{ans[0][0]}}</h1>
+            <p class = "voca_card">{{ans[0][0]}}</p>
             {% endif %}
             <div class = "tform">
                 {% if flag == 1 %}

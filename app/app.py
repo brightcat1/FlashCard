@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect
 import mysql.connector as voca_db
 import json
 import random
+import re
 
 
 f = open("serinfo.json", 'r')
@@ -45,15 +46,29 @@ def create_card():
 def post():
     word = request.form["word"]
     mean = request.form["mean"]
+    pattern = "^(?=.*(<|>|&|;|\'|\"|\/|=|\?|:|\*|{|}|\[|\])).*$"
+    wresult = re.match(pattern, word)
+    mresult = re.match(pattern, mean)
+    if wresult or mresult:
+        return redirect(url_for('error'))
     cur.execute("INSERT INTO vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
     connect.commit()
     return redirect(url_for('create_card'))
+
+#「/error.html」へアクセスがあった場合に、「error.html」を返す
+@app.route("/error.html")
+def error():
+    return render_template("error.html")
 
 @app.route("/delete_card",methods=["post"])
 def delete_card():
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
     card_word = request.form["card_word"]
+    pattern = "^(?=.*(<|>|&|;|\'|\"|\/|=|\?|:|\*|{|}|\[|\])).*$"
+    result = re.match(pattern, card_word)
+    if result:
+        return redirect(url_for('error'))
     for item in voca_info:
         if item[1] == card_word:
             cur.execute("DELETE FROM vocabook  WHERE word = '{a}';".format(a = item[1]))
@@ -81,27 +96,24 @@ def voca_test():
         random.shuffle(voca_index)
     for i in range(len(voca_index)):
         cur.execute("INSERT INTO vocaindex (vindex) VALUES ('{vindex}');".format(vindex=voca_index[i]))
-    cur.execute("INSERT INTO vocaindex (vindex) VALUES ('{vindex}');".format(vindex=100))
+    cur.execute("INSERT INTO vocaindex (vindex) VALUES ('{vindex}');".format(vindex=-1))
     connect.commit()
     cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
     cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     voca_info = cur.fetchall()
-    flag = 1
-    return render_template('test_main.html', voca_info = voca_info, flag = flag)
+    return render_template('test_main.html', voca_info = voca_info, flag = 1)
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/next",methods=["post"])
 def next_test():
-    voca_index = []
     cur.execute('SELECT * FROM vocaindex')
     index_info = cur.fetchall()
-    if index_info[0][1] == 100:
+    if index_info[0][1] == -1:
         return render_template('test_end.html')
     cur.execute('SELECT word FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     voca_info = cur.fetchall()
-    flag = 1
-    return render_template('test_main.html', voca_info = voca_info, flag = flag)
+    return render_template('test_main.html', voca_info = voca_info, flag = 1)
 
 #「/test_main.html」へアクセスがあった場合に、「test.html」を返す
 @app.route("/answer",methods=["post"])
@@ -110,10 +122,9 @@ def voca_answer():
     index_info = cur.fetchall()
     cur.execute('SELECT mean FROM vocabook where id = {a}'.format(a = index_info[0][1]))
     ans_info = cur.fetchall()
-    flag = 0
     cur.execute("DELETE FROM vocaindex  WHERE id = {a};".format(a = index_info[0][0]))
     connect.commit()
-    return render_template('test_main.html', ans = ans_info, flag = flag)
+    return render_template('test_main.html', ans = ans_info, flag = 0)
 
 @app.route("/to_home",methods=["post"])
 def to_home():
