@@ -34,7 +34,9 @@
                 <p><input type="submit" pattern="^(?!.*(<|>|&|;).*$" value="DELETE" class="register_btn"></p>
             </form>
             {% for item in voca_info %}
-            <h1><p>{{item[1]}} : {{item[2]}}</p><h1>
+            <div class="voca_card_v">
+                <h1>{{item[1]}} : {{item[2]}}<h1>
+            </div>
             {% endfor %}
         </div>
         <div class = "foot_line">
