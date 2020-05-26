@@ -40,35 +40,38 @@ def index():
 def create_card():
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
-    return render_template("create_card.html", voca_info = voca_info)
+    return render_template("create_card.html", voca_info = voca_info) 
 
 @app.route("/add_card",methods=["post"])
 def post():
     word = request.form["word"]
     mean = request.form["mean"]
+    if len(word) > 30 or len(mean) > 52:
+        error_code = 101
+        return render_template("error.html", error_code = error_code)
     pattern = "^(?=.*(<|>|&|;|\'|\"|\/|=|\?|:|\*|{|}|\[|\])).*$"
     wresult = re.match(pattern, word)
     mresult = re.match(pattern, mean)
     if wresult or mresult:
-        return redirect(url_for('error'))
+        error_code = 101
+        return render_template("error.html", error_code = error_code)
     cur.execute("INSERT INTO vocabook (word, mean) VALUES ('{word}', '{mean}');".format(word=word, mean=mean))
     connect.commit()
     return redirect(url_for('create_card'))
-
-#「/error.html」へアクセスがあった場合に、「error.html」を返す
-@app.route("/error.html")
-def error():
-    return render_template("error.html")
 
 @app.route("/delete_card",methods=["post"])
 def delete_card():
     cur.execute('SELECT * FROM vocabook')
     voca_info = cur.fetchall()
     card_word = request.form["card_word"]
+    if len(card_word) > 30:
+        error_code = 101
+        return render_template("error.html", error_code = error_code)
     pattern = "^(?=.*(<|>|&|;|\'|\"|\/|=|\?|:|\*|{|}|\[|\])).*$"
     result = re.match(pattern, card_word)
     if result:
-        return redirect(url_for('error'))
+        error_code = 101
+        return render_template("error.html", error_code = error_code)
     for item in voca_info:
         if item[1] == card_word:
             cur.execute("DELETE FROM vocabook  WHERE word = '{a}';".format(a = item[1]))

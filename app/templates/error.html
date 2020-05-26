@@ -18,7 +18,10 @@
         </div>
         <div class = "main">
             <h1 class = "slogan">Error</h1>
-            <p class = "sent">hahaha</p>
+            {% if error_code == 101%}
+            <h1>Invalid string！<h1>
+            <p class = "sent">The line break is 2 characters. Please be careful.</p>
+            {% endif %}
         </div>
         <div class = "foot_line">
         </div>

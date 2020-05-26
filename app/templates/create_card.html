@@ -22,15 +22,15 @@
 
             <form action="add_card" method="post">
                 <p class = "word_text">WORD</p>
-                <input type="text" pattern="^(?!.*(<|>|&|;)).*$" class = "word" name="word" placeholder="Please enter the word">
-                
+                <input type="text" maxlength='30' pattern="^(?!.*(<|>|&|;)).*$" class = "word" name="word" placeholder="30 character limit">
                 <p class = "mean_text">MEAN</p>
-                <textarea class="mean" pattern="^(?!.*(<|>|&|;)).*$" name="mean" placeholder="Please enter the meaning of the word"></textarea>
+                <textarea class="mean" maxlength='52' pattern="^(?!.*(<|>|&|;)).*$" name="mean" placeholder="52 character limit"></textarea>
                 <p><input type="submit" value="REGISTER" class="register_btn"></p>
+
             </form>
             <form action="delete_card" method="post">
                 <p class = "word_text">Card you want to delete</p>
-                <input type="text" class = "word" name="card_word" placeholder="Please enter the word">
+                <input type="text" maxlength='30' class = "word" name="card_word" placeholder="Please enter the word">
                 <p><input type="submit" pattern="^(?!.*(<|>|&|;).*$" value="DELETE" class="register_btn"></p>
             </form>
             {% for item in voca_info %}
