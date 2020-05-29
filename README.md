@@ -9,11 +9,15 @@
 登録した単語を削除することもできます。（一度削除した単語も再度登録し直すこともできます。）<br>
 以下は実際の画面です。<br>
 <br>
-![トップ画面](https://github.com/brightcat1/FlashCard/blob/master/images/top.png "トップ画面")<br>
+![トップ画面](https://github.com/brightcat1/FlashCard/tree/master/img/top.png "トップ画面")<br>
 <br>
-![単語登録](https://github.com/brightcat1/FlashCard/blob/master/images/add.png "単語登録")<br>
+![単語登録](https://github.com/brightcat1/FlashCard/tree/master/img/add.png "単語登録")<br>
 <br>
-![登録確認](https://github.com/brightcat1/FlashCard/blob/master/images/check.png "登録確認")<br>
+![登録確認](https://github.com/brightcat1/FlashCard/tree/master/img/check.png "登録確認")<br>
 <br>
-![ランダム出題選択画面](https://github.com/brightcat1/FlashCard/blob/master/images/shuffle.png "ランダム出題選択画面")<br>
+![ランダム出題選択画面](https://github.com/brightcat1/FlashCard/tree/master/img/shuffle.png "ランダム出題選択画面")<br>
+<br>
+![出題画面](https://github.com/brightcat1/FlashCard/tree/master/img/quesiton.png "出題画面")<br>
+<br>
+![解答画面](https://github.com/brightcat1/FlashCard/tree/master/img/answer.png "解答画面")<br>
 <br>
