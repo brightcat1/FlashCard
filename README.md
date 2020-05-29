@@ -17,7 +17,7 @@
 <br>
 ![ランダム出題選択画面](https://github.com/brightcat1/FlashCard/blob/master/img/shuffle.png "ランダム出題選択画面")<br>
 <br>
-![出題画面](https://github.com/brightcat1/FlashCard/blob/master/img/quesiton.png "出題画面")<br>
+![出題画面](https://github.com/brightcat1/FlashCard/blob/master/img/question.png "出題画面")<br>
 <br>
 ![解答画面](https://github.com/brightcat1/FlashCard/blob/master/img/answer.png "解答画面")<br>
 <br>
